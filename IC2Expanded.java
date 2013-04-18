@@ -2,7 +2,7 @@ package IC2Expanded;
 
 import java.util.logging.Logger;
 
-import IC2Expanded.item.QuantumSuitMk1;
+import IC2Expanded.item.ItemArmorQuantumSuitMk1;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.2")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.3")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -34,7 +34,7 @@ public class IC2Expanded {
 	
 	@Init
 	public void load(FMLInitializationEvent iEvent) {
-		quantumSuitMk1 = new QuantumSuitMk1(quantumSuitMk1ID);
+		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID);
 		LanguageRegistry.addName(quantumSuitMk1, "Quantum Suit Mk1");
 	}
 }

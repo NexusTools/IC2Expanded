@@ -21,8 +21,8 @@ import ic2.core.item.ElectricItem;
 /**
  * Based around IC2's Quantum Suit and Lap Pack
  */
-public class QuantumSuitMk1 extends ItemArmor implements ISpecialArmor, IElectricItem, IMetalArmor {
-	public QuantumSuitMk1(int id) {
+public class ItemArmorQuantumSuitMk1 extends ItemArmor implements ISpecialArmor, IElectricItem, IMetalArmor {
+	public ItemArmorQuantumSuitMk1(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 0, 1);
 		this.setItemName("Quantum Suit Mk1");
 		this.setMaxDamage(27);
@@ -53,7 +53,7 @@ public class QuantumSuitMk1 extends ItemArmor implements ISpecialArmor, IElectri
 
 	@Override
 	public boolean canProvideEnergy() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -122,8 +122,7 @@ public class QuantumSuitMk1 extends ItemArmor implements ISpecialArmor, IElectri
 		return false;
 	}
 
-	public String getTextureFile()
-	{
+	public String getTextureFile() {
 		return "/IC2Expanded/images/item.png";
 	}
 }
