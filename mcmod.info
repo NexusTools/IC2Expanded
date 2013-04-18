@@ -1,0 +1,17 @@
+[
+{
+  "modid": "IC2Expanded",
+  "name": "IC2 Expanded",
+  "description": "Adds new concepts related to IC2 to expand upon the foundation.",
+  "version": "0.1",
+  "mcversion": "1.4.7",
+  "logoFile": "",
+  "url": "http://www.minecraftforum.net/topic/1152770-",
+  "updateUrl": "",
+  "authors": ["Steve4448"],
+  "credits": "Made by Steve4448.",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
