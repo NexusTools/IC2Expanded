@@ -1,8 +1,8 @@
-package IC2Expanded.item;
+package steve4448.item;
 
 import java.util.List;
 
-import IC2Expanded.IC2Expanded;
+import steve4448.IC2Expanded;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -195,11 +195,11 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 	}
 
 	public String getTextureFile() {
-		return "/IC2Expanded/images/item/item.png";
+		return "/steve4448/images/item/item.png";
 	}
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/IC2Expanded/images/armor/quantum_suit_mk2_1.png";
+		return "/steve4448/images/armor/quantum_suit_mk2_1.png";
 	}
 }

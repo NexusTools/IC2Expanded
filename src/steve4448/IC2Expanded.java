@@ -1,4 +1,4 @@
-package IC2Expanded;
+package steve4448;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
@@ -6,8 +6,8 @@ import ic2.core.Ic2Items;
 
 import java.util.logging.Logger;
 
-import IC2Expanded.item.ItemArmorQuantumSuitMk1;
-import IC2Expanded.item.ItemArmorQuantumSuitMk2;
+import steve4448.item.ItemArmorQuantumSuitMk1;
+import steve4448.item.ItemArmorQuantumSuitMk2;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.2")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -32,9 +32,9 @@ public class IC2Expanded {
 	
 	@PreInit
 	public void preload(FMLPreInitializationEvent iEvent) {
-		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/item/item.png");
-		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/armor/quantum_suit_mk1_1.png");
-		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/armor/quantum_suit_mk2_1.png");
+		MinecraftForgeClient.preloadTexture("/steve4448/images/item/item.png");
+		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk1_1.png");
+		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk2_1.png");
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();
 		quantumSuitMk1ID = conf.getItem("quantumSuitMk1ID", 7000).getInt();

@@ -1,4 +1,4 @@
-package IC2Expanded.item;
+package steve4448.item;
 
 import java.util.List;
 
@@ -123,11 +123,11 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmor implements IArmorTextureP
 	}
 
 	public String getTextureFile() {
-		return "/IC2Expanded/images/item/item.png";
+		return "/steve4448/images/item/item.png";
 	}
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/IC2Expanded/images/armor/quantum_suit_mk1_1.png";
+		return "/steve4448/images/armor/quantum_suit_mk1_1.png";
 	}
 }
