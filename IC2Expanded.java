@@ -21,7 +21,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.8")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.9")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -45,8 +45,8 @@ public class IC2Expanded {
 		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(1);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
-		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("jetpack"));
-		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("jetpack"));
+		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
+		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("electricJetpack"));
 		
 		LanguageRegistry.addName(quantumSuitMk1, "Quantum Suit Mk1");
 		LanguageRegistry.addName(quantumSuitMk2, "Quantum Suit Mk2");

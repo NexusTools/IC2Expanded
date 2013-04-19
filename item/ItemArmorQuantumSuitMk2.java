@@ -20,6 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.common.MinecraftForge;
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
@@ -31,7 +32,7 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 		IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
 	public ItemArmorQuantumSuitMk2(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 1, 1);
-		this.setMaxDamage(getMaxCharge());
+		this.setMaxDamage(27);
 	}
 
 	@Override
@@ -49,17 +50,11 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 	public boolean useJetpack(EntityPlayer p, boolean hoverMode) {
 		ItemStack itemEquipped = p.inventory.armorInventory[2];
 
-		if (this.getCharge(itemEquipped) == 0) {
+		if (!ElectricItem.canUse(itemEquipped, hoverMode ? 6 : 9)) {
 			return false;
 		} else {
 			float adjustmentY = 0.7F;
 			float var6 = 0.05F;
-
-			if ((float) this.getCharge(itemEquipped)
-					/ (float) this.getMaxCharge(itemEquipped) <= var6) {
-				adjustmentY *= (float) this.getCharge(itemEquipped)
-						/ ((float) this.getMaxCharge(itemEquipped) * var6);
-			}
 
 			int worldHeight = p.worldObj.getHeight();
 			double newPosY = p.posY;
@@ -92,7 +87,8 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 				}
 			}
 
-			this.use(itemEquipped, hoverMode ? 6 : 9);
+			//TODO: Play jetpack sound?
+			ElectricItem.use(itemEquipped, hoverMode ? 6 : 9, p);
 			p.fallDistance = 0.0F;
 			p.distanceWalkedModified = 0.0F;
 			if (p instanceof EntityPlayerMP) {
@@ -170,27 +166,12 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 		return 3;
 	}
 
-	public int getCharge(ItemStack is) {
-		int chargeLeft = this.getMaxCharge(is) - is.getItemDamage() - 1;
-		return chargeLeft > 0 ? chargeLeft : 0;
-	}
-
-	public int getMaxCharge(ItemStack is) {
-		return is.getMaxDamage() - 2;
-	}
-
-	public void use(ItemStack is, int drain) {
-		int left = this.getCharge(is) - drain;
-		is.setItemDamage(1 + is.getMaxDamage() - (left > 0 ? left : 0));
-	}
-
 	@Override
-	public void getSubItems(int var1, CreativeTabs var2, List var3) {
-		ItemStack var4 = new ItemStack(this, 1);
-		ElectricItem.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE, true,
-				false);
-		var3.add(var4);
-		var3.add(new ItemStack(this, 1, this.getMaxDamage()));
+	public void getSubItems(int stub, CreativeTabs tab, List list) {
+		ItemStack chargedVariant = new ItemStack(this, 1);
+		ElectricItem.charge(chargedVariant, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
+		list.add(chargedVariant);
+		list.add(new ItemStack(this, 1, this.getMaxDamage()));
 	}
 
 	@SideOnly(Side.CLIENT)
