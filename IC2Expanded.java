@@ -1,12 +1,15 @@
 package IC2Expanded;
 
+import ic2.api.Ic2Recipes;
 import ic2.api.Items;
+import ic2.core.Ic2Items;
 
 import java.util.logging.Logger;
 
 import IC2Expanded.item.ItemArmorQuantumSuitMk1;
 import IC2Expanded.item.ItemArmorQuantumSuitMk2;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -21,7 +24,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.9")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -44,9 +47,9 @@ public class IC2Expanded {
 		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(0);
 		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(1);
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
-		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
-		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("electricJetpack"));
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("electricJetpack"));
 		
 		LanguageRegistry.addName(quantumSuitMk1, "Quantum Suit Mk1");
 		LanguageRegistry.addName(quantumSuitMk2, "Quantum Suit Mk2");

@@ -26,7 +26,7 @@ import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
 
 /**
- * Based around IC2's Quantum Suit and Lap Pack
+ * Based around IC2's Quantum Suit, Lap-pack and Jet-pack.
  */
 public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
 		IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
