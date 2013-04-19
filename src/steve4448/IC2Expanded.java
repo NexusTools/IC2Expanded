@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.Configuration;
+import steve4448.item.ItemArmorNanoSuitMk1;
+import steve4448.item.ItemArmorNanoSuitMk2;
 import steve4448.item.ItemArmorQuantumSuitMk1;
 import steve4448.item.ItemArmorQuantumSuitMk2;
 import cpw.mods.fml.common.Mod;
@@ -16,35 +18,52 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.3")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.4")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
+	public static int nanoSuitMk1ID, nanoSuitMk2ID;
+	public static Item nanoSuitMk1, nanoSuitMk2;
+	
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
 	public static Item quantumSuitMk1, quantumSuitMk2;
 	
 	@PreInit
 	public void preload(FMLPreInitializationEvent iEvent) {
 		MinecraftForgeClient.preloadTexture("/steve4448/images/item/item.png");
+		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk1_1.png");
+		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk2_1.png");
 		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk1_1.png");
 		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk2_1.png");
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();
-		quantumSuitMk1ID = conf.getItem("quantumSuitMk1ID", 7000).getInt();
-		quantumSuitMk2ID = conf.getItem("quantumSuitMk2ID", 7001).getInt();
+		nanoSuitMk1ID = conf.getItem("nanoSuitMk1ID", 7000).getInt();
+		nanoSuitMk2ID = conf.getItem("nanoSuitMk2ID", 7001).getInt();
+		quantumSuitMk1ID = conf.getItem("quantumSuitMk1ID", 7002).getInt();
+		quantumSuitMk2ID = conf.getItem("quantumSuitMk2ID", 7003).getInt();
 		conf.save();
 	}
 	
 	@Init
 	public void load(FMLInitializationEvent iEvent) {
 		// TODO: Base textures around what we can find, merge them together, and save them to a temporary directory, would also have to hook into when a texture pack is changed.
-		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(0);
-		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(1);
+		nanoSuitMk1 = new ItemArmorNanoSuitMk1(nanoSuitMk1ID).setItemName("nanoSuitMk1").setIconIndex(0);
+		nanoSuitMk2 = new ItemArmorNanoSuitMk2(nanoSuitMk2ID).setItemName("nanoSuitMk2").setIconIndex(1);
+		
+		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(2);
+		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(3);
+		
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk1), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"));
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk2), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
+		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk2), nanoSuitMk1, Items.getItem("electricJetpack"));
 		
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("electricJetpack"));
 		
-		LanguageRegistry.addName(quantumSuitMk1, "Quantum Suit Mk1");
-		LanguageRegistry.addName(quantumSuitMk2, "Quantum Suit Mk2");
+		LanguageRegistry.addName(nanoSuitMk1, "Nano Bodyarmor Mk1");
+		LanguageRegistry.addName(nanoSuitMk2, "Nano Bodyarmor Mk2");
+		
+		LanguageRegistry.addName(quantumSuitMk1, "Quantum Bodyarmor Mk1");
+		LanguageRegistry.addName(quantumSuitMk2, "Quantum Bodyarmor Mk2");
 	}
 }
