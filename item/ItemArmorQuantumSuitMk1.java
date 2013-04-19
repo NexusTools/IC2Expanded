@@ -16,9 +16,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
+import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
-import ic2.core.item.ElectricItem;
 /**
  * Based around IC2's Quantum Suit and Lap Pack
  */

@@ -2,53 +2,130 @@ package IC2Expanded.item;
 
 import java.util.List;
 
+import IC2Expanded.IC2Expanded;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
+import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
-import ic2.core.item.ElectricItem;
+
 /**
  * Based around IC2's Quantum Suit and Lap Pack
  */
-public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
+public class ItemArmorQuantumSuitMk2 extends ItemArmor implements
+		IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
 	public ItemArmorQuantumSuitMk2(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 1, 1);
-		this.setMaxDamage(27);
+		this.setMaxDamage(getMaxCharge());
 	}
 
 	@Override
 	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
 		p.extinguish();
+
+		boolean hoverModeOn = false; // TODO: Re implementation of a hover-mode.
+
+		if (p.isJumping || (hoverModeOn && p.motionY < -0.3499999940395355D)) {
+			useJetpack(p, hoverModeOn);
+			p.inventoryContainer.detectAndSendChanges();
+		}
+	}
+
+	public boolean useJetpack(EntityPlayer p, boolean hoverMode) {
+		ItemStack itemEquipped = p.inventory.armorInventory[2];
+
+		if (this.getCharge(itemEquipped) == 0) {
+			return false;
+		} else {
+			float adjustmentY = 0.7F;
+			float var6 = 0.05F;
+
+			if ((float) this.getCharge(itemEquipped)
+					/ (float) this.getMaxCharge(itemEquipped) <= var6) {
+				adjustmentY *= (float) this.getCharge(itemEquipped)
+						/ ((float) this.getMaxCharge(itemEquipped) * var6);
+			}
+
+			int worldHeight = p.worldObj.getHeight();
+			double newPosY = p.posY;
+
+			if (newPosY > (p.worldObj.getHeight() - 25)) {
+				if (newPosY > p.worldObj.getHeight()) {
+					newPosY = p.worldObj.getHeight();
+				}
+
+				adjustmentY = (float) (adjustmentY * ((p.worldObj.getHeight() - newPosY) / 25.0D));
+			}
+
+			double motionY = p.motionY;
+			p.motionY = Math.min(p.motionY + (adjustmentY * 0.2F),
+					0.6000000238418579D);
+
+			if (hoverMode) {
+				float newMotionY = -0.1F;
+
+				if (p.isJumping) {
+					newMotionY = 0.1F;
+				}
+
+				if (p.motionY > (double) newMotionY) {
+					p.motionY = (double) newMotionY;
+
+					if (motionY > p.motionY) {
+						p.motionY = motionY;
+					}
+				}
+			}
+
+			this.use(itemEquipped, hoverMode ? 6 : 9);
+			p.fallDistance = 0.0F;
+			p.distanceWalkedModified = 0.0F;
+			if (p instanceof EntityPlayerMP) {
+				((EntityPlayerMP) p).playerNetServerHandler.ticksForFloatKick = 0;
+			}
+			return true;
+		}
 	}
 
 	@Override
-	public ArmorProperties getProperties(EntityLiving player, ItemStack armor, DamageSource source, double damage, int slot) {
+	public ArmorProperties getProperties(EntityLiving player, ItemStack armor,
+			DamageSource source, double damage, int slot) {
 		double var7 = getDamageAbsorptionRatio() * getBaseAbsorptionRatio();
 		int var9 = getEnergyPerDamage();
-		int var10 = var9 > 0 ? 25 * ElectricItem.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true) / var9 : 0;
+		int var10 = var9 > 0 ? 25
+				* ElectricItem.discharge(armor, Integer.MAX_VALUE,
+						Integer.MAX_VALUE, true, true) / var9 : 0;
 		return new ISpecialArmor.ArmorProperties(0, var7, var10);
 	}
 
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		return ElectricItem.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true) >= getEnergyPerDamage() ? (int)Math.round(20.0D * getDamageAbsorptionRatio() * getBaseAbsorptionRatio()) : 0;
+		return ElectricItem.discharge(armor, Integer.MAX_VALUE,
+				Integer.MAX_VALUE, true, true) >= getEnergyPerDamage() ? (int) Math
+				.round(20.0D * getDamageAbsorptionRatio()
+						* getBaseAbsorptionRatio()) : 0;
 	}
 
 	@Override
-	public void damageArmor(EntityLiving entity, ItemStack stack, DamageSource source, int damage, int slot) {
-		ElectricItem.discharge(stack, damage * getEnergyPerDamage(), Integer.MAX_VALUE, true, false);
+	public void damageArmor(EntityLiving entity, ItemStack stack,
+			DamageSource source, int damage, int slot) {
+		ElectricItem.discharge(stack, damage * getEnergyPerDamage(),
+				Integer.MAX_VALUE, true, false);
 	}
 
 	@Override
@@ -79,11 +156,11 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureP
 	public int getEnergyPerDamage() {
 		return 900;
 	}
-	
+
 	public double getBaseAbsorptionRatio() {
 		return 0.4;
 	}
-	
+
 	public double getDamageAbsorptionRatio() {
 		return 1.1;
 	}
@@ -93,11 +170,25 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureP
 		return 3;
 	}
 
+	public int getCharge(ItemStack is) {
+		int chargeLeft = this.getMaxCharge(is) - is.getItemDamage() - 1;
+		return chargeLeft > 0 ? chargeLeft : 0;
+	}
+
+	public int getMaxCharge(ItemStack is) {
+		return is.getMaxDamage() - 2;
+	}
+
+	public void use(ItemStack is, int drain) {
+		int left = this.getCharge(is) - drain;
+		is.setItemDamage(1 + is.getMaxDamage() - (left > 0 ? left : 0));
+	}
+
 	@Override
-	public void getSubItems(int var1, CreativeTabs var2, List var3)
-	{
+	public void getSubItems(int var1, CreativeTabs var2, List var3) {
 		ItemStack var4 = new ItemStack(this, 1);
-		ElectricItem.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
+		ElectricItem.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE, true,
+				false);
 		var3.add(var4);
 		var3.add(new ItemStack(this, 1, this.getMaxDamage()));
 	}
