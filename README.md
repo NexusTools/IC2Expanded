@@ -13,7 +13,7 @@ Planned Additions
 
 Considered Additions
 ===========
-* Potentially a dynamic method of making 'machs' of items (as in adds a Jetpack and or Lappack/Batpack) to every current armor variant that it can find, the speculation of this would be that it when it finds these armors, it loads their textures respectively, their attributes, and then from there creates a new sub-item into a already existant stub armor class that re-implements the armor with the new jetpack/etc functionality. This would remove any 'special' functionality that it previously had. (Could use reflection though to re-create the class?)
+* Potentially a dynamic method of making 'machs' of items (as in adds a Jetpack and or Lappack/Batpack) to every current armor variant that it can find, the speculation of this would be that it when it finds these armors, it loads their textures respectively, their attributes, and then from there creates a new sub-item into a already existant stub armor class that re-implements the armor with the new jetpack/etc functionality. This would remove any 'special' functionality that it previously had.
 
 Credits
 ==========
