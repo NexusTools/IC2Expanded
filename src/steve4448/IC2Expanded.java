@@ -2,6 +2,7 @@ package steve4448;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -10,16 +11,24 @@ import steve4448.item.ItemArmorNanoSuitMk1;
 import steve4448.item.ItemArmorNanoSuitMk2;
 import steve4448.item.ItemArmorQuantumSuitMk1;
 import steve4448.item.ItemArmorQuantumSuitMk2;
+import steve4448.handle.Keyboard;
+import steve4448.handle.PacketHandler;
+import steve4448.handle.TickHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.4")
-@NetworkMod(clientSideRequired = true)
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.5")
+@NetworkMod(clientSideRequired = true, channels={"IC2Expanded"}, packetHandler = PacketHandler.class)
 public class IC2Expanded {
 	public static int nanoSuitMk1ID, nanoSuitMk2ID;
 	public static Item nanoSuitMk1, nanoSuitMk2;
@@ -27,13 +36,18 @@ public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
 	public static Item quantumSuitMk1, quantumSuitMk2;
 	
+	@SidedProxy(clientSide = "steve4448.handle.KeyboardClient", serverSide = "steve4448.handle.Keyboard")
+    public static Keyboard keyboard;
+	
 	@PreInit
 	public void preload(FMLPreInitializationEvent iEvent) {
-		MinecraftForgeClient.preloadTexture("/steve4448/images/item/item.png");
-		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk1_1.png");
-		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk2_1.png");
-		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk1_1.png");
-		MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk2_1.png");
+		if(FMLCommonHandler.instance().getSide().isClient()) {
+			MinecraftForgeClient.preloadTexture("/steve4448/images/item/item.png");
+			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk2_1.png");
+			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk2_1.png");
+		}
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();
 		nanoSuitMk1ID = conf.getItem("nanoSuitMk1ID", 7000).getInt();
@@ -46,6 +60,8 @@ public class IC2Expanded {
 	@Init
 	public void load(FMLInitializationEvent iEvent) {
 		// TODO: Base textures around what we can find, merge them together, and save them to a temporary directory, would also have to hook into when a texture pack is changed.
+		// TODO: Allow use of Mk1/Mk2 nano suit in creation of Quantum Suit.
+		
 		nanoSuitMk1 = new ItemArmorNanoSuitMk1(nanoSuitMk1ID).setItemName("nanoSuitMk1").setIconIndex(0);
 		nanoSuitMk2 = new ItemArmorNanoSuitMk2(nanoSuitMk2ID).setItemName("nanoSuitMk2").setIconIndex(1);
 		
@@ -65,5 +81,12 @@ public class IC2Expanded {
 		
 		LanguageRegistry.addName(quantumSuitMk1, "Quantum Bodyarmor Mk1");
 		LanguageRegistry.addName(quantumSuitMk2, "Quantum Bodyarmor Mk2");
+		
+		TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
 	}
+	
+	public void onPlayerLogout(EntityPlayer p) {
+		if(FMLCommonHandler.instance().getSide().isServer())
+			keyboard.removePlayerReferences(p);
+    }
 }

@@ -6,7 +6,8 @@ import ic2.api.IMetalArmor;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
+import steve4448.IC2Expanded;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +37,7 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureP
 		p.extinguish();
 		
 		boolean hoverModeOn = false; // TODO: Re implementation of a hover-mode.
-		if(Minecraft.getMinecraft().gameSettings.keyBindJump.pressed || hoverModeOn) {
+		if(IC2Expanded.keyboard.isJumpKeyDown(p) || hoverModeOn) {
 			ItemStack itemEquipped = p.inventory.armorInventory[2];
 			boolean hoverMode = false;
 			
