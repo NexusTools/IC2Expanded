@@ -123,6 +123,6 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmor implements ISpecialArmor,
 	}
 
 	public String getTextureFile() {
-		return "/IC2Expanded/images/item.png";
+		return "/IC2Expanded/images/item/item.png";
 	}
 }
