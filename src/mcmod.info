@@ -12,6 +12,6 @@
   "credits": "Made by Steve4448.",
   "parent": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["required-after:IC2"]
 }
 ]
