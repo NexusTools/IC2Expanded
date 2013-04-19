@@ -14,6 +14,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
 import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
@@ -21,10 +22,10 @@ import ic2.core.item.ElectricItem;
 /**
  * Based around IC2's Quantum Suit and Lap Pack
  */
-public class ItemArmorQuantumSuitMk1 extends ItemArmor implements ISpecialArmor, IElectricItem, IMetalArmor {
+public class ItemArmorQuantumSuitMk1 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
 	public ItemArmorQuantumSuitMk1(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 0, 1);
-		this.setItemName("Quantum Suit Mk1");
+		this.iconIndex = 0;
 		this.setMaxDamage(27);
 	}
 
@@ -124,5 +125,10 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmor implements ISpecialArmor,
 
 	public String getTextureFile() {
 		return "/IC2Expanded/images/item/item.png";
+	}
+
+	@Override
+	public String getArmorTextureFile(ItemStack itemstack) {
+		return "/IC2Expanded/images/armor/quantum_suit_mk1_1.png";
 	}
 }
