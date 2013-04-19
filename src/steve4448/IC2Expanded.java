@@ -2,29 +2,21 @@ package steve4448;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
-import ic2.core.Ic2Items;
-
-import java.util.logging.Logger;
-
-import steve4448.item.ItemArmorQuantumSuitMk1;
-import steve4448.item.ItemArmorQuantumSuitMk2;
-
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.Configuration;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import steve4448.item.ItemArmorQuantumSuitMk1;
+import steve4448.item.ItemArmorQuantumSuitMk2;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.2")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.3")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -44,6 +36,7 @@ public class IC2Expanded {
 	
 	@Init
 	public void load(FMLInitializationEvent iEvent) {
+		// TODO: Base textures around what we can find, merge them together, and save them to a temporary directory, would also have to hook into when a texture pack is changed.
 		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(0);
 		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(1);
 		
