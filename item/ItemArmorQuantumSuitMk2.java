@@ -22,9 +22,9 @@ import ic2.core.item.ElectricItem;
 /**
  * Based around IC2's Quantum Suit and Lap Pack
  */
-public class ItemArmorQuantumSuitMk1 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
-	public ItemArmorQuantumSuitMk1(int id) {
-		super(id, EnumArmorMaterial.DIAMOND, 0, 1);
+public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
+	public ItemArmorQuantumSuitMk2(int id) {
+		super(id, EnumArmorMaterial.DIAMOND, 1, 1);
 		this.setMaxDamage(27);
 	}
 
@@ -68,7 +68,7 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmor implements IArmorTextureP
 
 	@Override
 	public int getMaxCharge() {
-		return 1000000 + 300000;
+		return 1000000 + 300000 + 30000;
 	}
 
 	@Override
@@ -128,6 +128,6 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmor implements IArmorTextureP
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/IC2Expanded/images/armor/quantum_suit_mk1_1.png";
+		return "/IC2Expanded/images/armor/quantum_suit_mk2_1.png";
 	}
 }

@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
 import IC2Expanded.item.ItemArmorQuantumSuitMk1;
+import IC2Expanded.item.ItemArmorQuantumSuitMk2;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.6")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.1.7")
 @NetworkMod(clientSideRequired = true)
 public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
@@ -30,6 +31,7 @@ public class IC2Expanded {
 	public void preload(FMLPreInitializationEvent iEvent) {
 		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/item/item.png");
 		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/armor/quantum_suit_mk1_1.png");
+		MinecraftForgeClient.preloadTexture("/IC2Expanded/images/armor/quantum_suit_mk2_1.png");
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();
 		quantumSuitMk1ID = conf.getItem("quantumSuitMk1ID", 7000).getInt();
@@ -39,8 +41,14 @@ public class IC2Expanded {
 	
 	@Init
 	public void load(FMLInitializationEvent iEvent) {
-		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1");
+		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(0);
+		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(1);
+		
 		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
+		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("jetpack"));
+		GameRegistry.addShapelessRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("jetpack"));
+		
 		LanguageRegistry.addName(quantumSuitMk1, "Quantum Suit Mk1");
+		LanguageRegistry.addName(quantumSuitMk2, "Quantum Suit Mk2");
 	}
 }
