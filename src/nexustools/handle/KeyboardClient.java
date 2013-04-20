@@ -18,9 +18,9 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 
 @SideOnly(Side.CLIENT)
 public class KeyboardClient extends Keyboard {
-	public static KeyBinding hoverKey = new KeyBinding("Hover_Key", 35); //H
-	public static KeyBinding hoverUp = new KeyBinding("Hover_Up", 42); //Shift
-	public static KeyBinding hoverDown = new KeyBinding("Hover_Down", 29); //Ctrl
+	public static KeyBinding hoverKey = new KeyBinding("Hover Key", 35); //H
+	public static KeyBinding hoverUp = new KeyBinding("Hover Up", 42); //Shift
+	public static KeyBinding hoverDown = new KeyBinding("Hover Down", 29); //Ctrl
 	private int lastKeyState = 0;
 	
 	public KeyboardClient() {
