@@ -1,4 +1,4 @@
-package steve4448.item;
+package nexustools.item;
 
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
@@ -6,7 +6,6 @@ import ic2.api.IMetalArmor;
 
 import java.util.List;
 
-import steve4448.IC2Expanded;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -20,6 +19,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IArmorTextureProvider;
 import net.minecraftforge.common.ISpecialArmor;
+import nexustools.IC2Expanded;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -173,11 +173,11 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmor implements IArmorTextureP
 	
 	@Override
 	public String getTextureFile() {
-		return "/steve4448/images/item/item.png";
+		return "/nexustools/images/item/item.png";
 	}
 	
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/steve4448/images/armor/quantum_suit_mk2_1.png";
+		return "/nexustools/images/armor/quantum_suit_mk2_1.png";
 	}
 }

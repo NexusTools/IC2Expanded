@@ -1,4 +1,4 @@
-package steve4448.item;
+package nexustools.item;
 
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
@@ -6,12 +6,9 @@ import ic2.api.IMetalArmor;
 
 import java.util.List;
 
-import steve4448.IC2Expanded;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
@@ -24,67 +21,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Based around IC2's Nano Suit, Lap-pack and Jet-pack.
+ * Based around IC2's Nano Suit and Lap Pack
  */
-public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
-	public ItemArmorNanoSuitMk2(int id) {
-		super(id, EnumArmorMaterial.DIAMOND, 1, 1);
+public class ItemArmorNanoSuitMk1 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
+	public ItemArmorNanoSuitMk1(int id) {
+		super(id, EnumArmorMaterial.DIAMOND, 0, 1);
 		this.setMaxDamage(27);
-	}
-	
-	@Override
-	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
-		boolean hoverModeOn = false; // TODO: Re implementation of a hover-mode.
-		if(IC2Expanded.keyboard.isJumpKeyDown(p) || hoverModeOn) {
-			ItemStack itemEquipped = p.inventory.armorInventory[2];
-			boolean hoverMode = false;
-			
-			if(ElectricItem.canUse(itemEquipped, hoverMode ? 6 : 9)) {
-				float adjustmentY = 0.7F;
-				
-				int worldHeight = p.worldObj.getHeight();
-				double newPosY = p.posY;
-				
-				if(newPosY > (p.worldObj.getHeight() - 25)) {
-					if(newPosY > p.worldObj.getHeight()) {
-						newPosY = p.worldObj.getHeight();
-					}
-					
-					adjustmentY = (float) (adjustmentY * ((p.worldObj.getHeight() - newPosY) / 25.0D));
-				}
-				
-				double motionY = p.motionY;
-				p.motionY = Math.min(p.motionY + (adjustmentY * 0.2F), 0.6);
-				
-				if(hoverMode) {
-					float newMotionY = p.isJumping ? 0.1F : -0.1F;
-					
-					if(p.motionY > newMotionY) {
-						p.motionY = newMotionY;
-						
-						if(motionY > p.motionY) {
-							p.motionY = motionY;
-						}
-					}
-				}
-				
-				// TODO: Play jetpack sound?
-				
-				p.fallDistance = 0;
-				p.distanceWalkedModified = 0;
-				ElectricItem.use(itemEquipped, hoverMode ? 6 : 9, p);
-				if(p instanceof EntityPlayerMP) {
-					((EntityPlayerMP) p).playerNetServerHandler.ticksForFloatKick = 0;
-				}
-			}
-			p.inventoryContainer.detectAndSendChanges();
-		}
 	}
 	
 	@Override
 	public ArmorProperties getProperties(EntityLiving player, ItemStack armor, DamageSource source, double damage, int slot) {
 		double var7 = getDamageAbsorptionRatio() * getBaseAbsorptionRatio();
-		int var10 = getEnergyPerDamage() > 0 ? 25 * ElectricItem.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true) / getEnergyPerDamage() : 0;
+		int var9 = getEnergyPerDamage();
+		int var10 = var9 > 0 ? 25 * ElectricItem.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true) / var9 : 0;
 		return new ISpecialArmor.ArmorProperties(0, var7, var10);
 	}
 	
@@ -115,7 +64,7 @@ public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProv
 	
 	@Override
 	public int getMaxCharge() {
-		return 100000 + 300000 + 30000;
+		return 100000 + 300000;
 	}
 	
 	@Override
@@ -141,11 +90,11 @@ public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProv
 	}
 	
 	@Override
-	public void getSubItems(int stub, CreativeTabs tab, List list) {
-		ItemStack chargedVariant = new ItemStack(this, 1);
-		ElectricItem.charge(chargedVariant, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
-		list.add(chargedVariant);
-		list.add(new ItemStack(this, 1, this.getMaxDamage()));
+	public void getSubItems(int var1, CreativeTabs var2, List var3) {
+		ItemStack var4 = new ItemStack(this, 1);
+		ElectricItem.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
+		var3.add(var4);
+		var3.add(new ItemStack(this, 1, this.getMaxDamage()));
 	}
 	
 	@Override
@@ -171,11 +120,11 @@ public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProv
 	
 	@Override
 	public String getTextureFile() {
-		return "/steve4448/images/item/item.png";
+		return "/nexustools/images/item/item.png";
 	}
 	
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/steve4448/images/armor/nano_suit_mk2_1.png";
+		return "/nexustools/images/armor/nano_suit_mk1_1.png";
 	}
 }

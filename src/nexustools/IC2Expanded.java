@@ -1,4 +1,4 @@
-package steve4448;
+package nexustools;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
@@ -7,13 +7,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.Configuration;
-import steve4448.item.ItemArmorNanoSuitMk1;
-import steve4448.item.ItemArmorNanoSuitMk2;
-import steve4448.item.ItemArmorQuantumSuitMk1;
-import steve4448.item.ItemArmorQuantumSuitMk2;
-import steve4448.handle.Keyboard;
-import steve4448.handle.PacketHandler;
-import steve4448.handle.TickHandler;
+import nexustools.handle.Keyboard;
+import nexustools.handle.PacketHandler;
+import nexustools.handle.TickHandler;
+import nexustools.item.ItemArmorNanoSuitMk1;
+import nexustools.item.ItemArmorNanoSuitMk2;
+import nexustools.item.ItemArmorQuantumSuitMk1;
+import nexustools.item.ItemArmorQuantumSuitMk2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -42,11 +42,11 @@ public class IC2Expanded {
 	@PreInit
 	public void preload(FMLPreInitializationEvent iEvent) {
 		if(FMLCommonHandler.instance().getSide().isClient()) {
-			MinecraftForgeClient.preloadTexture("/steve4448/images/item/item.png");
-			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk1_1.png");
-			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/nano_suit_mk2_1.png");
-			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk1_1.png");
-			MinecraftForgeClient.preloadTexture("/steve4448/images/armor/quantum_suit_mk2_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/images/item/item.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/images/armor/nano_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/images/armor/nano_suit_mk2_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/images/armor/quantum_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/images/armor/quantum_suit_mk2_1.png");
 		}
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();
