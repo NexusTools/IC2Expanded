@@ -71,15 +71,11 @@ public class ItemArmorLapJet extends ItemArmorLap {
 		boolean thrust;
 		if(hoverEnabled) {
 			if(p.isOnLadder() || p.isCollidedVertically || p.onGround) {
-				System.out.println("On Ground");
-				
 				NBTData.setDouble("targetHeight", groundY);
 				NBTData.setBoolean("hoverBobUp", false);
 				NBTData.setFloat("hoverBob", -1f);
 				thrust = false;
-			} else { 
-				System.out.println("Not On Ground");
-				
+			} else {
 				if(hoverBobUp) {
 					if(hoverBob < 0 && IC2Expanded.keyboard.isJumpKeyDown(p))
 						hoverBob += 0.3;
@@ -112,7 +108,7 @@ public class ItemArmorLapJet extends ItemArmorLap {
 				thrust = targetHeight > effectiveY;
 			}
 			
-			System.out.println(side + ": " + targetHeight + " - " + hoverBob + " - " + (hoverBobUp ? "On" : "Off"));
+			//System.out.println(side + ": " + targetHeight + " - " + hoverBob + " - " + (hoverBobUp ? "On" : "Off"));
 		} else
 			thrust = IC2Expanded.keyboard.isJumpKeyDown(p);
 
