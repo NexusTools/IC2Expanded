@@ -26,9 +26,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.6", dependencies = "required-after:IC2")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.8", dependencies = "required-after:IC2")
 @NetworkMod(clientSideRequired = true, channels={"IC2Expanded"}, packetHandler = PacketHandler.class)
 public class IC2Expanded {
 	public static int nanoSuitMk1ID, nanoSuitMk2ID;

@@ -3,14 +3,12 @@ package nexustools.handle;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Keyboard {
 	private Map<EntityPlayer, Boolean> forwardKeyDown = new HashMap<EntityPlayer, Boolean>();
 	private Map<EntityPlayer, Boolean> jumpKeyDown = new HashMap<EntityPlayer, Boolean>();
 	private Map<EntityPlayer, Boolean> hoverKeyDown = new HashMap<EntityPlayer, Boolean>();
-	private Map<EntityPlayer, Boolean> hoverUpKeyDown = new HashMap<EntityPlayer, Boolean>();
 	private Map<EntityPlayer, Boolean> hoverDownKeyDown = new HashMap<EntityPlayer, Boolean>();
 	
 	public boolean isForwardKeyDown(EntityPlayer p) {
@@ -23,10 +21,6 @@ public class Keyboard {
 	
 	public boolean isHoverKeyDown(EntityPlayer p) {
 		return this.hoverKeyDown.containsKey(p) ? this.hoverKeyDown.get(p) : false;
-	}
-	
-	public boolean isHoverUpKeyDown(EntityPlayer p) {
-		return this.hoverUpKeyDown.containsKey(p) ? this.hoverUpKeyDown.get(p) : false;
 	}
 	
 	public boolean isHoverDownKeyDown(EntityPlayer p) {
@@ -47,7 +41,6 @@ public class Keyboard {
 		forwardKeyDown.remove(p);
 		jumpKeyDown.remove(p);
 		hoverKeyDown.remove(p);
-		hoverUpKeyDown.remove(p);
 		hoverDownKeyDown.remove(p);
 	}
 }
