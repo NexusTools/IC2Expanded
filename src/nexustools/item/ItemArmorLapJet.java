@@ -5,6 +5,8 @@ import ic2.api.ElectricItem;
 import java.util.HashMap;
 import java.util.Map;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -18,10 +20,19 @@ import nexustools.IC2Expanded;
  */
 
 public class ItemArmorLapJet extends ItemArmorLap {
-	private Map<EntityPlayer, Boolean> hoverKeyDown = new HashMap<EntityPlayer, Boolean>();
 
 	public ItemArmorLapJet(int id, int armorSlot, int charge) {
 		super(id, armorSlot, charge);
+	}
+	
+	public void showMessage(EntityPlayer p, String message) {
+		if(!FMLCommonHandler.instance().getSide().isClient())
+			return;
+		
+		if(p instanceof EntityPlayerMP)
+			((EntityPlayerMP) p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
+		else
+			p.addChatMessage(message);
 	}
 
 	@Override
@@ -32,28 +43,24 @@ public class ItemArmorLapJet extends ItemArmorLap {
 			itemStack.setTagCompound(NBTData);
 		}
 
+		byte toggleTimeout = NBTData.getByte("toggleTimeout");
 		int targetHeight = NBTData.getInteger("targetHeight");
 		boolean hoverEnabled = NBTData.getBoolean("hoverMode");
-		boolean hoverKey = hoverKeyDown.containsKey(p) ? hoverKeyDown.get(p) : false;
-		if(hoverKey != IC2Expanded.keyboard.isHoverKeyDown(p)) {
-			hoverKey = IC2Expanded.keyboard.isHoverKeyDown(p);
-			if(hoverKey) {
-				hoverEnabled = !hoverEnabled;
-				if(hoverEnabled) {
-					targetHeight = (int) p.posY;
-					NBTData.setInteger("targetHeight", targetHeight);
-				}
-
-				String message = hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.";
-				if(p instanceof EntityPlayerMP)
-					((EntityPlayerMP) p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
-				else
-					p.addChatMessage(message);
-
-				NBTData.setBoolean("hoverMode", hoverEnabled);
+		if(toggleTimeout <= 0 && IC2Expanded.keyboard.isHoverKeyDown(p)) {
+			hoverEnabled = !hoverEnabled;
+			if(hoverEnabled) {
+				targetHeight = (int) p.posY;
+				NBTData.setInteger("targetHeight", targetHeight);
 			}
 
-			hoverKeyDown.put(p, hoverKey);
+			showMessage(p, hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.");
+			toggleTimeout = 11;
+			NBTData.setBoolean("hoverMode", hoverEnabled);
+		}
+		
+		if(toggleTimeout > 0) {
+			toggleTimeout--;
+			NBTData.setByte("toggleTimeout", toggleTimeout);
 		}
 
 		boolean thrust;
@@ -62,20 +69,14 @@ public class ItemArmorLapJet extends ItemArmorLap {
 			if(p.isOnLadder() || p.isCollidedVertically)
 				newTargetHeight = (int) p.posY;
 			else if(IC2Expanded.keyboard.isJumpKeyDown(p))
-				newTargetHeight += 1;
+				newTargetHeight = (int)p.posY + 1;
 			else if(IC2Expanded.keyboard.isHoverDownKeyDown(p))
-				newTargetHeight -= 1;
+				newTargetHeight = (int)p.posY - 1;
 
 			if(targetHeight != newTargetHeight) {
 				targetHeight = newTargetHeight;
 				NBTData.setInteger("targetHeight", targetHeight);
-				NBTData.setBoolean("hoverMode", true);
-
-				String message = "Hover Target set to: " + targetHeight;
-				if(p instanceof EntityPlayerMP)
-					((EntityPlayerMP) p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
-				else
-					p.addChatMessage(message);
+				showMessage(p, "Hover Target set to: " + targetHeight);
 			}
 
 			thrust = !p.isOnLadder() && targetHeight > p.posY;
