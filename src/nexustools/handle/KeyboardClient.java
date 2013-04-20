@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class KeyboardClient extends Keyboard {
 	public static KeyBinding hoverKey = new KeyBinding("Hover Key", 35); // H
-	public static KeyBinding hoverDown = new KeyBinding("Hover Down", 42); // Ctrl
+	public static KeyBinding hoverDown = new KeyBinding("Hover Down", 42); // Shift
 	private int lastKeyState = 0;
 
 	public KeyboardClient() {
