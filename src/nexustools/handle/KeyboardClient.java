@@ -2,17 +2,33 @@ package nexustools.handle;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.util.EnumSet;
 
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
 
+@SideOnly(Side.CLIENT)
 public class KeyboardClient extends Keyboard {
+	public static KeyBinding hoverKey = new KeyBinding("Hover_Key", 35); //H
+	public static KeyBinding hoverUp = new KeyBinding("Hover_Up", 42); //Shift
+	public static KeyBinding hoverDown = new KeyBinding("Hover_Down", 29); //Ctrl
 	private int lastKeyState = 0;
+	
+	public KeyboardClient() {
+		KeyBindingRegistry.registerKeyBinding(new KeyHandle(new KeyBinding[] {hoverKey, hoverUp, hoverDown}));
+	}
+	
 	public void sendKeyUpdate() throws Exception {
-        int newState = (Minecraft.getMinecraft().gameSettings.keyBindForward.pressed ? 1 : 0) | (Minecraft.getMinecraft().gameSettings.keyBindJump.pressed ? 1 : 0) << 1;
+        int newState = (Minecraft.getMinecraft().gameSettings.keyBindForward.pressed ? 1 : 0) | (Minecraft.getMinecraft().gameSettings.keyBindJump.pressed ? 1 : 0) << 1 | (hoverKey.pressed ? 1 : 0) << 2 | (hoverUp.pressed ? 1 : 0) << 3 | (hoverDown.pressed ? 1 : 0) << 4;
 
         if (newState != lastKeyState) {
         	ByteArrayOutputStream bOS = new ByteArrayOutputStream(8);
@@ -30,4 +46,26 @@ public class KeyboardClient extends Keyboard {
             this.lastKeyState = newState;
         }
     }
+}
+
+class KeyHandle extends KeyHandler {
+	public KeyHandle(KeyBinding[] keys) {
+		super(keys);
+	}
+
+	@Override
+	public String getLabel() {
+		return "IC2Expanded";
+	}
+
+	@Override
+	public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat) {}
+
+	@Override
+	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {}
+
+	@Override
+	public EnumSet<TickType> ticks() {
+		return EnumSet.of(TickType.CLIENT);
+	}
 }
