@@ -34,7 +34,6 @@ public class Keyboard {
 		this.jumpKeyDown.put(p, (val & 2) != 0);
 		this.hoverKeyDown.put(p, (val & 4) != 0);
 		this.hoverDownKeyDown.put(p, (val & 8) != 0);
-		System.out.println(val);
 	}
 
 	public void removePlayerReferences(EntityPlayer p) {
