@@ -27,7 +27,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.5", dependencies = "required-after:IC2")
+@Mod(modid = "IC2Expanded", name = "IC2 Expanded", version = "0.2.6", dependencies = "required-after:IC2")
 @NetworkMod(clientSideRequired = true, channels={"IC2Expanded"}, packetHandler = PacketHandler.class)
 public class IC2Expanded {
 	public static int nanoSuitMk1ID, nanoSuitMk2ID;
@@ -71,10 +71,12 @@ public class IC2Expanded {
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk1), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk2), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk2), nanoSuitMk1, Items.getItem("electricJetpack"));
-		
+
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk1), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), Items.getItem("quantumBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(quantumSuitMk2), quantumSuitMk1, Items.getItem("electricJetpack"));
+		Ic2Recipes.addCraftingRecipe(new ItemStack(quantumSuitMk1), "AnA", "ILI", "IAI", 'n', nanoSuitMk1, 'I', Items.getItem("iridiumPlate"), 'L', Items.getItem("lapotronCrystal"), 'A', Items.getItem("advancedAlloy"));
+		Ic2Recipes.addCraftingRecipe(new ItemStack(quantumSuitMk2), "AnA", "ILI", "IAI", 'n', nanoSuitMk2, 'I', Items.getItem("iridiumPlate"), 'L', Items.getItem("lapotronCrystal"), 'A', Items.getItem("advancedAlloy"));
 		
 		LanguageRegistry.addName(nanoSuitMk1, "Nano Bodyarmor Mk1");
 		LanguageRegistry.addName(nanoSuitMk2, "Nano Bodyarmor Mk2");
