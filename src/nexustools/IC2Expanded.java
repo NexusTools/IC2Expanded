@@ -36,7 +36,7 @@ public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
 	public static Item quantumSuitMk1, quantumSuitMk2;
 	
-	@SidedProxy(clientSide = "steve4448.handle.KeyboardClient", serverSide = "steve4448.handle.Keyboard")
+	@SidedProxy(clientSide = "nexustools.handle.KeyboardClient", serverSide = "nexustools.handle.Keyboard")
     public static Keyboard keyboard;
 	
 	@PreInit
