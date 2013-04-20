@@ -13,28 +13,28 @@ public class ItemArmorNanoSuitMk1 extends ItemArmorLap implements IArmorTextureP
 	public ItemArmorNanoSuitMk1(int id) {
 		super(id, 1, 100000 + 300000);
 	}
-	
+
 	@Override
 	public int getTransferLimit() {
 		return 160;
 	}
-	
+
 	@Override
 	public int getEnergyPerDamage() {
 		return 800;
 	}
-	
+
 	@Override
 	public int getTier() {
 		return 2;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack var1) {
 		return EnumRarity.uncommon;
 	}
-	
+
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
 		return "/nexustools/images/armor/nano_suit_mk1_1.png";

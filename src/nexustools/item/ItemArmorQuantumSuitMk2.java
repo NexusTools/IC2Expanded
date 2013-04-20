@@ -15,38 +15,39 @@ public class ItemArmorQuantumSuitMk2 extends ItemArmorLapJet implements IArmorTe
 	public ItemArmorQuantumSuitMk2(int id) {
 		super(id, 1, 1000000 + 300000 + 30000);
 	}
-	
+
 	@Override
 	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
 		p.extinguish();
 		super.onArmorTickUpdate(w, p, itemStack);
 	}
-	
+
 	@Override
 	public int getTransferLimit() {
 		return 1000;
 	}
-	
+
+	@Override
 	public int getEnergyPerDamage() {
 		return 900;
 	}
-	
+
 	@Override
 	public double getDamageAbsorptionRatio() {
 		return 1.1;
 	}
-	
+
 	@Override
 	public int getTier() {
 		return 3;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack var1) {
 		return EnumRarity.rare;
 	}
-	
+
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
 		return "/nexustools/images/armor/quantum_suit_mk2_1.png";

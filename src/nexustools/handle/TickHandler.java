@@ -3,20 +3,18 @@ package nexustools.handle;
 import java.util.EnumSet;
 
 import nexustools.IC2Expanded;
-
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
 public class TickHandler implements ITickHandler {
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-		if(type.contains(TickType.CLIENT)) {
+		if(type.contains(TickType.CLIENT))
 			try {
 				IC2Expanded.keyboard.sendKeyUpdate();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		}
 	}
 
 	@Override

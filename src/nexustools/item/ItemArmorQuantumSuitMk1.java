@@ -15,38 +15,38 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmorLap implements IArmorTextu
 	public ItemArmorQuantumSuitMk1(int id) {
 		super(id, 1, 1000000 + 300000);
 	}
-	
+
 	@Override
 	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
 		p.extinguish();
 	}
-	
+
 	@Override
 	public int getTransferLimit() {
 		return 1000;
 	}
-	
+
 	@Override
 	public int getEnergyPerDamage() {
 		return 900;
 	}
-	
+
 	@Override
 	public double getDamageAbsorptionRatio() {
 		return 1.1;
 	}
-	
+
 	@Override
 	public int getTier() {
 		return 3;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack var1) {
 		return EnumRarity.rare;
 	}
-	
+
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
 		return "/nexustools/images/armor/quantum_suit_mk1_1.png";
