@@ -3,6 +3,7 @@ package nexustools.handle;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Keyboard {
@@ -37,9 +38,9 @@ public class Keyboard {
 	public void processKeyUpdate(EntityPlayer p, int val) {
 		this.forwardKeyDown.put(p, (val & 1) != 0);
 		this.jumpKeyDown.put(p, (val & 2) != 0);
-		this.hoverKeyDown.put(p, (val & 3) != 0);
-		this.hoverUpKeyDown.put(p, (val & 4) != 0);
-		this.hoverDownKeyDown.put(p, (val & 5) != 0);
+		this.hoverKeyDown.put(p, (val & 4) != 0);
+		this.hoverDownKeyDown.put(p, (val & 8) != 0);
+		System.out.println(val);
 	}
 	
 	public void removePlayerReferences(EntityPlayer p) {

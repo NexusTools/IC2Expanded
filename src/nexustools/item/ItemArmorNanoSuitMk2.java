@@ -3,8 +3,12 @@ package nexustools.item;
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
 import ic2.api.IMetalArmor;
+import ic2.api.Items;
+import ic2.core.util.StackUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,6 +19,8 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IArmorTextureProvider;
@@ -27,6 +33,8 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Based around IC2's Nano Suit, Lap-pack and Jet-pack.
  */
 public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProvider, ISpecialArmor, IElectricItem, IMetalArmor {
+	private Map<EntityPlayer, Boolean> hoverKeyDown = new HashMap<EntityPlayer, Boolean>();
+	
 	public ItemArmorNanoSuitMk2(int id) {
 		super(id, EnumArmorMaterial.DIAMOND, 1, 1);
 		this.setMaxDamage(27);
@@ -34,12 +42,76 @@ public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProv
 	
 	@Override
 	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
-		boolean hoverModeOn = false; // TODO: Re implementation of a hover-mode.
-		if(IC2Expanded.keyboard.isJumpKeyDown(p) || hoverModeOn) {
-			ItemStack itemEquipped = p.inventory.armorInventory[2];
-			boolean hoverMode = false;
+		NBTTagCompound NBTData = itemStack.getTagCompound();
+		if(NBTData == null)
+		{
+			NBTData = new NBTTagCompound("tag");
+			itemStack.setTagCompound(NBTData);
+		}
+		
+		int targetHeight = NBTData.getInteger("targetHeight");
+		boolean hoverEnabled = NBTData.getBoolean("hoverMode");
+		boolean hoverKey = hoverKeyDown.containsKey(p) ? hoverKeyDown.get(p) : false;
+		if(hoverKey != IC2Expanded.keyboard.isHoverKeyDown(p)) {
+			hoverKey = IC2Expanded.keyboard.isHoverKeyDown(p);
+			if(hoverKey) {
+				hoverEnabled = !hoverEnabled;
+				if(hoverEnabled) {
+					targetHeight = (int)p.posY;
+					NBTData.setInteger("targetHeight", targetHeight);
+				}
+				
+				String message = hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.";
+				if (p instanceof EntityPlayerMP)
+		        {
+		            ((EntityPlayerMP)p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
+		        }
+		        else
+		        {
+		            p.addChatMessage(message);
+		        }
+				
+				NBTData.setBoolean("hoverMode", hoverEnabled);
+			}
 			
-			if(ElectricItem.canUse(itemEquipped, hoverMode ? 6 : 9)) {
+			hoverKeyDown.put(p, hoverKey);
+		}
+		
+		boolean thrust;
+		if(hoverEnabled) {
+			int newTargetHeight = targetHeight;
+			if(p.isOnLadder() || p.isCollidedVertically) {
+				newTargetHeight = (int)p.posY;
+			} else if(IC2Expanded.keyboard.isJumpKeyDown(p) || IC2Expanded.keyboard.isHoverUpKeyDown(p)) {
+				newTargetHeight += 1;
+			} else if(IC2Expanded.keyboard.isHoverDownKeyDown(p)) {
+				newTargetHeight -= 1;
+			}
+			
+			if(targetHeight != newTargetHeight) {
+				targetHeight = newTargetHeight;
+				NBTData.setInteger("targetHeight", targetHeight);
+				NBTData.setBoolean("hoverMode", true);
+				
+				String message = "Hover Target set to: " + targetHeight;
+				if (p instanceof EntityPlayerMP)
+		        {
+		            ((EntityPlayerMP)p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
+		        }
+		        else
+		        {
+		            p.addChatMessage(message);
+		        }
+			}
+			
+			thrust = !p.isOnLadder() && targetHeight > p.posY;
+		} else
+			thrust = IC2Expanded.keyboard.isJumpKeyDown(p);
+		
+		if(thrust) {
+			ItemStack itemEquipped = p.inventory.armorInventory[2];
+			
+			if(ElectricItem.canUse(itemEquipped, 9)) {
 				float adjustmentY = 0.7F;
 				
 				int worldHeight = p.worldObj.getHeight();
@@ -56,23 +128,11 @@ public class ItemArmorNanoSuitMk2 extends ItemArmor implements IArmorTextureProv
 				double motionY = p.motionY;
 				p.motionY = Math.min(p.motionY + (adjustmentY * 0.2F), 0.6);
 				
-				if(hoverMode) {
-					float newMotionY = p.isJumping ? 0.1F : -0.1F;
-					
-					if(p.motionY > newMotionY) {
-						p.motionY = newMotionY;
-						
-						if(motionY > p.motionY) {
-							p.motionY = motionY;
-						}
-					}
-				}
-				
 				// TODO: Play jetpack sound?
 				
 				p.fallDistance = 0;
 				p.distanceWalkedModified = 0;
-				ElectricItem.use(itemEquipped, hoverMode ? 6 : 9, p);
+				ElectricItem.use(itemEquipped, 9, p);
 				if(p instanceof EntityPlayerMP) {
 					((EntityPlayerMP) p).playerNetServerHandler.ticksForFloatKick = 0;
 				}

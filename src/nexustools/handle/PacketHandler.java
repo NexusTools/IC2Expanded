@@ -18,7 +18,6 @@ public class PacketHandler implements IPacketHandler {
 			if(FMLCommonHandler.instance().getSide().isServer())
 				if(packet.channel.equals("IC2Expanded")) {
 					DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
-					
 					IC2Expanded.keyboard.processKeyUpdate((EntityPlayerMP)playerEntity, inputStream.readInt());
 				}
 		} catch(Exception e) {

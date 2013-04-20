@@ -2,6 +2,7 @@ package nexustools;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,11 +63,19 @@ public class IC2Expanded {
 		// TODO: Base textures around what we can find, merge them together, and save them to a temporary directory, would also have to hook into when a texture pack is changed.
 		// TODO: Allow use of Mk1/Mk2 nano suit in creation of Quantum Suit.
 		
+		ItemStack electricJetpack = Items.getItem("electricJetpack");
+		CreativeTabs IC2CreativeTab = electricJetpack.getItem().getCreativeTab();
+		
 		nanoSuitMk1 = new ItemArmorNanoSuitMk1(nanoSuitMk1ID).setItemName("nanoSuitMk1").setIconIndex(0);
 		nanoSuitMk2 = new ItemArmorNanoSuitMk2(nanoSuitMk2ID).setItemName("nanoSuitMk2").setIconIndex(1);
 		
 		quantumSuitMk1 = new ItemArmorQuantumSuitMk1(quantumSuitMk1ID).setItemName("quantumSuitMk1").setIconIndex(2);
 		quantumSuitMk2 = new ItemArmorQuantumSuitMk2(quantumSuitMk2ID).setItemName("quantumSuitMk2").setIconIndex(3);
+		
+		nanoSuitMk1.setCreativeTab(IC2CreativeTab);
+		nanoSuitMk2.setCreativeTab(IC2CreativeTab);
+		quantumSuitMk1.setCreativeTab(IC2CreativeTab);
+		quantumSuitMk2.setCreativeTab(IC2CreativeTab);
 		
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk1), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"));
 		Ic2Recipes.addShapelessCraftingRecipe(new ItemStack(nanoSuitMk2), Items.getItem("nanoBodyarmor"), Items.getItem("lapPack"), Items.getItem("electricJetpack"));
