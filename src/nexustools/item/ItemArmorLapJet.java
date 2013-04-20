@@ -2,16 +2,12 @@ package nexustools.item;
 
 import ic2.api.ElectricItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.world.World;
 import nexustools.IC2Expanded;
 
@@ -23,16 +19,6 @@ public class ItemArmorLapJet extends ItemArmorLap {
 
 	public ItemArmorLapJet(int id, int armorSlot, int charge) {
 		super(id, armorSlot, charge);
-	}
-	
-	public void showMessage(EntityPlayer p, String message) {
-		if(!FMLCommonHandler.instance().getSide().isClient())
-			return;
-		
-		if(p instanceof EntityPlayerMP)
-			((EntityPlayerMP) p).playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(message));
-		else
-			p.addChatMessage(message);
 	}
 
 	@Override
@@ -52,8 +38,8 @@ public class ItemArmorLapJet extends ItemArmorLap {
 				targetHeight = (int) p.posY;
 				NBTData.setInteger("targetHeight", targetHeight);
 			}
-
-			showMessage(p, hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.");
+			if(FMLCommonHandler.instance().getSide().isClient())
+				p.addChatMessage(hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.");
 			toggleTimeout = 11;
 			NBTData.setBoolean("hoverMode", hoverEnabled);
 		}
@@ -76,7 +62,6 @@ public class ItemArmorLapJet extends ItemArmorLap {
 			if(targetHeight != newTargetHeight) {
 				targetHeight = newTargetHeight;
 				NBTData.setInteger("targetHeight", targetHeight);
-				showMessage(p, "Hover Target set to: " + targetHeight);
 			}
 
 			thrust = !p.isOnLadder() && targetHeight > p.posY;
@@ -89,7 +74,6 @@ public class ItemArmorLapJet extends ItemArmorLap {
 			if(ElectricItem.canUse(itemEquipped, 9)) {
 				float adjustmentY = 0.7F;
 
-				int worldHeight = p.worldObj.getHeight();
 				double newPosY = p.posY;
 
 				if(newPosY > (p.worldObj.getHeight() - 25)) {
@@ -99,7 +83,6 @@ public class ItemArmorLapJet extends ItemArmorLap {
 					adjustmentY = (float) (adjustmentY * ((p.worldObj.getHeight() - newPosY) / 25.0D));
 				}
 
-				double motionY = p.motionY;
 				p.motionY = Math.min(p.motionY + (adjustmentY * 0.2F), 0.6);
 
 				// TODO: Play jetpack sound?
