@@ -78,11 +78,11 @@ public class IC2Expanded {
 		Ic2Recipes.addCraftingRecipe(new ItemStack(quantumSuitMk1), "AnA", "ILI", "IAI", 'n', nanoSuitMk1, 'I', Items.getItem("iridiumPlate"), 'L', Items.getItem("lapotronCrystal"), 'A', Items.getItem("advancedAlloy"));
 		Ic2Recipes.addCraftingRecipe(new ItemStack(quantumSuitMk2), "AnA", "ILI", "IAI", 'n', nanoSuitMk2, 'I', Items.getItem("iridiumPlate"), 'L', Items.getItem("lapotronCrystal"), 'A', Items.getItem("advancedAlloy"));
 		
-		LanguageRegistry.addName(nanoSuitMk1, "Nano Bodyarmor Mk1");
-		LanguageRegistry.addName(nanoSuitMk2, "Nano Bodyarmor Mk2");
+		LanguageRegistry.addName(nanoSuitMk1, "NanoSuit Bodyarmor Mk1");
+		LanguageRegistry.addName(nanoSuitMk2, "NanoSuit Bodyarmor Mk2");
 		
-		LanguageRegistry.addName(quantumSuitMk1, "Quantum Bodyarmor Mk1");
-		LanguageRegistry.addName(quantumSuitMk2, "Quantum Bodyarmor Mk2");
+		LanguageRegistry.addName(quantumSuitMk1, "QuantumSuit Bodyarmor Mk1");
+		LanguageRegistry.addName(quantumSuitMk2, "QuantumSuit Bodyarmor Mk2");
 		
 		TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
 	}
