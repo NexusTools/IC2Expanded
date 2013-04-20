@@ -23,6 +23,8 @@ public class ItemArmorLapJet extends ItemArmorLap {
 
 	@Override
 	public void onArmorTickUpdate(World w, EntityPlayer p, ItemStack itemStack) {
+		String side = FMLCommonHandler.instance().getSide().name();
+		
 		NBTTagCompound NBTData = itemStack.getTagCompound();
 		if(NBTData == null) {
 			NBTData = new NBTTagCompound("tag");
@@ -32,47 +34,70 @@ public class ItemArmorLapJet extends ItemArmorLap {
 		byte toggleTimeout = 0;
 		boolean hoverEnabled = false;
 		double targetHeight = 0;
+		float hoverBob = 0;
+		boolean hoverBobUp = false;
 		try {
 			toggleTimeout = NBTData.getByte("toggleTimeout");
 			hoverEnabled = NBTData.getBoolean("hoverMode");
+			hoverBob = NBTData.getFloat("hoverBob");
+			hoverBobUp = NBTData.getBoolean("hoverBobUp");
 			targetHeight = NBTData.getDouble("targetHeight");
-		} catch(Exception e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
+		double groundY = Math.floor(p.posY - 1);
 		if(toggleTimeout <= 0 && IC2Expanded.keyboard.isHoverKeyDown(p)) {
 			hoverEnabled = !hoverEnabled;
 			if(hoverEnabled) {
-				targetHeight = Math.floor(p.posY - 0.5);
+				targetHeight = groundY;
 				NBTData.setDouble("targetHeight", targetHeight);
 			}
 			
 			if(FMLCommonHandler.instance().getSide().isClient())
 				p.addChatMessage(hoverEnabled ? "Hover Mode Enabled." : "Hover Mode Disabled.");
 			
+			toggleTimeout = 10;
 			NBTData.setBoolean("hoverMode", hoverEnabled);
-			toggleTimeout = 15;
+			NBTData.setByte("toggleTimeout", toggleTimeout);
 		} else if(toggleTimeout > 0) {
 			toggleTimeout--;
 			NBTData.setByte("toggleTimeout", toggleTimeout);
 		}
 		
-		double effectiveY = p.posY + 0.5 - (p.motionY/(p.motionY > 0 ? 2 : 6));
 		boolean thrust;
 		if(hoverEnabled) {
-			double newTargetHeight = targetHeight;
-			if(p.isOnLadder() || p.isCollidedVertically) {
-				if(targetHeight != p.posY) {
-					targetHeight = Math.floor(p.posY - 0.5);
-					NBTData.setDouble("targetHeight", targetHeight);
-				}
-			} else if(IC2Expanded.keyboard.isJumpKeyDown(p)) {
-				targetHeight += 0.5;
-				NBTData.setDouble("targetHeight", targetHeight);
-			} else if(IC2Expanded.keyboard.isHoverDownKeyDown(p)) {
-				targetHeight -= 0.5;
-				NBTData.setDouble("targetHeight", targetHeight);
+			if(hoverBobUp)
+				hoverBob += 0.1;
+			else
+				hoverBob -= 0.1;
+			
+			if(hoverBob < 0) {
+				hoverBob = 0;
+				hoverBobUp = true;
+				NBTData.setBoolean("hoverBobUp", hoverBobUp);
+			} else if(hoverBob > 0.5) {
+				hoverBob = 0.5f;
+				hoverBobUp = false;
+				NBTData.setBoolean("hoverBobUp", hoverBobUp);
 			}
-
-			thrust = !p.isOnLadder() && targetHeight > p.posY + p.motionY/(p.motionY > 0 ? 8 : 3);
+			NBTData.setFloat("hoverBob", hoverBob);
+			
+			double yMovement = (p.motionY < 0.15 && p.motionY > -0.15) ? (p.motionY > 0 ? -0.15 : 0.15) : p.motionY;
+			double effectiveY = p.posY + yMovement + hoverBob + 0.5;
+			
+			double newTargetHeight = targetHeight;
+			if(p.isOnLadder() || p.isCollidedVertically)
+				targetHeight = groundY;
+			else if(IC2Expanded.keyboard.isJumpKeyDown(p))
+				targetHeight = targetHeight+0.8;
+		    else if(IC2Expanded.keyboard.isHoverDownKeyDown(p))
+				targetHeight = targetHeight-0.8;
+			
+			targetHeight = Math.max(p.posY-3, Math.min(p.posY+8, targetHeight));
+			NBTData.setDouble("targetHeight", targetHeight);
+			System.out.println(side + ": " + targetHeight);
+			thrust = !p.isOnLadder() && targetHeight > effectiveY;
 		} else
 			thrust = IC2Expanded.keyboard.isJumpKeyDown(p);
 
