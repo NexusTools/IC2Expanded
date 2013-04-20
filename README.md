@@ -4,6 +4,8 @@ IC2Expanded adds new additions that expand upon the [IC2 Mod](http://www.industr
 
 Current Additions
 ===========
+* Nano Suit Mk1 - A hybird of a Nano Suit and a Lappack - increased maximum storage, has additonal functionality of a lappack.
+* Nano Suit Mk2 - A hybird of a Nano Suit, a Lappack and a jetpack - increased maximum storage, has additonal functionality of a lappack. FLIES.
 * Quantum Suit Mk1 - A hybird of a Quantum Suit and a Lappack - increases maximum storage and allows the suit of armor to charge inventory items.
 * Quantum Suit Mk2 - A hybird of the Quantum Suit with a lappack AND a jetpack. Also increases storage, charges items, and flies!
 
