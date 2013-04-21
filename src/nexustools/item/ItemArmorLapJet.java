@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import ic2.api.ElectricItem;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.SidedProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,26 +14,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import nexustools.IC2Expanded;
+import nexustools.IC2SoundEffectAdaptor;
+import nexustools.handle.Keyboard;
 
 /*
  * Stub for Lappack and Jetpack based armors
  */
 
 public class ItemArmorLapJet extends ItemArmorLap {
-	public static boolean tryToFindAudioSource = true;
-	public static boolean lastUseSuccessfull = false;
-
-	public static Method ic2AudioManageCreateSourceMethod;
-	public static Method ic2AudioSourcePlayMethod;
-	public static Method ic2AudioSourceRemoveMethod;
-	public static Method ic2AudioSourceUpdatePositionMethod;
-
-	public static Object ic2AudioSourceInstance;
-	public static Object ic2PositionSpecBackPackEnum;
-
-	public static Object ic2AudioManager;
-	public static Object ic2AudioManagerDefaultVolume;
-	public static String soundEffectFileName = "Tools/Jetpack/JetpackLoop.ogg";
+	
+	IC2SoundEffectAdaptor soundEffect = new IC2SoundEffectAdaptor("Tools/Jetpack/JetpackLoop.ogg");
 
 	public ItemArmorLapJet(int id, int armorSlot, int charge) {
 		super(id, armorSlot, charge);
@@ -154,61 +145,8 @@ public class ItemArmorLapJet extends ItemArmorLap {
 			p.inventoryContainer.detectAndSendChanges();
 		}
 
-		if(FMLCommonHandler.instance().getSide().isClient() && tryToFindAudioSource) {
-			try {
-				if(ic2AudioManageCreateSourceMethod == null) {
-					Class<?> ic2audioSourceManager = Class.forName("ic2.core.audio.AudioManager");
-					ic2AudioManageCreateSourceMethod = ic2audioSourceManager.getDeclaredMethod("createSource", Object.class, Class.forName("ic2.core.audio.PositionSpec"), String.class, boolean.class, boolean.class, float.class);
-					Class<?> ic2PositionSpec = Class.forName("ic2.core.audio.PositionSpec");
-					if(ic2PositionSpec == null)
-						throw new Exception("Missing ic2.core.audio.PositionSpec");
-
-					ic2PositionSpecBackPackEnum = null;
-					for(Object constant : ic2PositionSpec.getEnumConstants())
-						if(constant.toString().equals("Backpack")) {
-							ic2PositionSpecBackPackEnum = constant;
-							break;
-						}
-
-					if(ic2PositionSpecBackPackEnum == null)
-						throw new Exception("ic2PositionSpecBackPackEnum not found.");
-
-					Class<?> ic2MainClass = Class.forName("ic2.core.IC2");
-					Field ic2AudioManagerField = ic2MainClass.getDeclaredField("audioManager");
-					ic2AudioManager = ic2AudioManagerField.get(null);
-
-					Field ic2AudoManagerDefaultVolumeField = ic2audioSourceManager.getDeclaredField("defaultVolume");
-					ic2AudioManagerDefaultVolume = ic2AudoManagerDefaultVolumeField.get(ic2AudioManager);
-				} else {
-					if(lastUseSuccessfull != thrust) {
-						if(thrust) {
-							if(ic2AudioSourceInstance == null) {
-								ic2AudioSourceInstance = ic2AudioManageCreateSourceMethod.invoke(ic2AudioManager, p, ic2PositionSpecBackPackEnum, soundEffectFileName, true, false, ic2AudioManagerDefaultVolume);
-								Class<?> ic2AudioSource = ic2AudioSourceInstance.getClass();
-
-								ic2AudioSourcePlayMethod = ic2AudioSource.getDeclaredMethod("play");
-								ic2AudioSourceRemoveMethod = ic2AudioSource.getDeclaredMethod("remove");
-								ic2AudioSourceUpdatePositionMethod = ic2AudioSource.getDeclaredMethod("updatePosition");
-							}
-							if(ic2AudioSourceInstance != null)
-								ic2AudioSourcePlayMethod.invoke(ic2AudioSourceInstance);
-						} else {
-							if(ic2AudioSourceInstance != null)
-								ic2AudioSourceRemoveMethod.invoke(ic2AudioSourceInstance);
-							ic2AudioSourceInstance = null;
-							ic2AudioSourcePlayMethod = null;
-							ic2AudioSourceRemoveMethod = null;
-							ic2AudioSourceUpdatePositionMethod = null;
-						}
-					}
-					if(thrust && ic2AudioSourceInstance != null)
-						ic2AudioSourceUpdatePositionMethod.invoke(ic2AudioSourceInstance);
-					lastUseSuccessfull = thrust;
-				}
-			} catch(Throwable t) {
-				t.printStackTrace();
-				tryToFindAudioSource = false;
-			}
-		}
+		if(FMLCommonHandler.instance().getSide().isClient())
+			soundEffect.tick(thrust, p);
+		
 	}
 }
