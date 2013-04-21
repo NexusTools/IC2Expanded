@@ -83,7 +83,7 @@ public class ItemArmorLapJet extends ItemArmorLap {
 				NBTData.setFloat("hoverBob", -1f);
 				thrust = false;
 			} else {
-				if(hoverBobUp) {
+				if((hoverBobUp || IC2Expanded.keyboard.isJumpKeyDown(p)) && !IC2Expanded.keyboard.isHoverDownKeyDown(p)) {
 					if(hoverBob < 0 && IC2Expanded.keyboard.isJumpKeyDown(p))
 						hoverBob += 0.3;
 					else
@@ -124,7 +124,6 @@ public class ItemArmorLapJet extends ItemArmorLap {
 
 			if(ElectricItem.canUse(itemEquipped, 9)) {
 				float adjustmentY = 0.7F;
-
 				double newPosY = p.posY;
 
 				if(newPosY > (p.worldObj.getHeight() - 25)) {
