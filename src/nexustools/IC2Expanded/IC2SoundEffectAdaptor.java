@@ -1,4 +1,4 @@
-package nexustools;
+package nexustools.IC2Expanded;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -72,7 +72,6 @@ public class IC2SoundEffectAdaptor {
 			
 			if(playing) {
 				if(ic2AudioSourceInstance == null || !ic2AudioSourceValidField.getBoolean(ic2AudioSourceInstance)) {
-					System.out.println("Creating IC2 Sound Effect: " + soundEffectFileName);
 					ic2AudioSourceInstance = ic2AudioManageCreateSourceMethod.invoke(ic2AudioManager, p, ic2PositionSpecBackPackEnum, soundEffectFileName, true, false, ic2AudioManagerDefaultVolume);
 					
 					if(ic2AudioSourceInstance != null) {
@@ -96,7 +95,6 @@ public class IC2SoundEffectAdaptor {
 					ic2AudioSourcePauseMethod.invoke(ic2AudioSourceInstance);
 					destroyTimer --;
 				} else {
-					System.out.println("Destroying IC2 Sound Effect: " + soundEffectFileName);
 					ic2AudioSourceRemoveMethod.invoke(ic2AudioSourceInstance);
 					ic2AudioSourceInstance = null;
 				}

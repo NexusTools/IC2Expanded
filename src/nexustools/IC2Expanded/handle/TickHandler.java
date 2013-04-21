@@ -1,8 +1,8 @@
-package nexustools.handle;
+package nexustools.IC2Expanded.handle;
 
 import java.util.EnumSet;
 
-import nexustools.IC2Expanded;
+import nexustools.IC2Expanded.IC2Expanded;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 

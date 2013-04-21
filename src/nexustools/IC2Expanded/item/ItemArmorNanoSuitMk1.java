@@ -1,4 +1,4 @@
-package nexustools.item;
+package nexustools.IC2Expanded.item;
 
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -7,11 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Based around IC2's Nano Suit, Lap-pack and Jet-pack.
+ * Based around IC2's Nano Suit and Lap Pack
  */
-public class ItemArmorNanoSuitMk2 extends ItemArmorLapJet implements IArmorTextureProvider {
-	public ItemArmorNanoSuitMk2(int id) {
-		super(id, 1, 100000 + 300000 + 30000);
+public class ItemArmorNanoSuitMk1 extends ItemArmorLap implements IArmorTextureProvider {
+	public ItemArmorNanoSuitMk1(int id) {
+		super(id, 1, 100000 + 300000);
 	}
 
 	@Override
@@ -37,6 +37,6 @@ public class ItemArmorNanoSuitMk2 extends ItemArmorLapJet implements IArmorTextu
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/nexustools/images/armor/nano_suit_mk2_1.png";
+		return "/nexustools/IC2Expanded/images/armor/nano_suit_mk1_1.png";
 	}
 }

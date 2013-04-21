@@ -1,4 +1,4 @@
-package nexustools.item;
+package nexustools.IC2Expanded.item;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,9 +13,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import nexustools.IC2Expanded;
-import nexustools.IC2SoundEffectAdaptor;
-import nexustools.handle.Keyboard;
+import nexustools.IC2Expanded.IC2Expanded;
+import nexustools.IC2Expanded.IC2SoundEffectAdaptor;
+import nexustools.IC2Expanded.handle.Keyboard;
 
 /*
  * Stub for Lappack and Jetpack based armors

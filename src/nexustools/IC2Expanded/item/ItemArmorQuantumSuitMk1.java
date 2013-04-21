@@ -1,4 +1,4 @@
-package nexustools.item;
+package nexustools.IC2Expanded.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -49,6 +49,6 @@ public class ItemArmorQuantumSuitMk1 extends ItemArmorLap implements IArmorTextu
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/nexustools/images/armor/quantum_suit_mk1_1.png";
+		return "/nexustools/IC2Expanded/images/armor/quantum_suit_mk1_1.png";
 	}
 }
