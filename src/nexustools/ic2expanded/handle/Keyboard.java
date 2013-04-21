@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded.handle;
+package nexustools.ic2expanded.handle;
 
 import java.util.HashMap;
 import java.util.Map;

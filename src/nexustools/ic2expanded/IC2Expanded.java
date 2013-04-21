@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded;
+package nexustools.ic2expanded;
 
 import ic2.api.Ic2Recipes;
 import ic2.api.Items;
@@ -8,13 +8,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.Configuration;
-import nexustools.IC2Expanded.handle.Keyboard;
-import nexustools.IC2Expanded.handle.PacketHandler;
-import nexustools.IC2Expanded.handle.TickHandler;
-import nexustools.IC2Expanded.item.ItemArmorNanoSuitMk1;
-import nexustools.IC2Expanded.item.ItemArmorNanoSuitMk2;
-import nexustools.IC2Expanded.item.ItemArmorQuantumSuitMk1;
-import nexustools.IC2Expanded.item.ItemArmorQuantumSuitMk2;
+import nexustools.ic2expanded.handle.Keyboard;
+import nexustools.ic2expanded.handle.PacketHandler;
+import nexustools.ic2expanded.handle.TickHandler;
+import nexustools.ic2expanded.item.ItemArmorNanoSuitMk1;
+import nexustools.ic2expanded.item.ItemArmorNanoSuitMk2;
+import nexustools.ic2expanded.item.ItemArmorQuantumSuitMk1;
+import nexustools.ic2expanded.item.ItemArmorQuantumSuitMk2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -36,17 +36,17 @@ public class IC2Expanded {
 	public static int quantumSuitMk1ID, quantumSuitMk2ID;
 	public static Item quantumSuitMk1, quantumSuitMk2;
 
-	@SidedProxy(clientSide = "nexustools.IC2Expanded.handle.KeyboardClient", serverSide = "nexustools.IC2Expanded.handle.Keyboard")
+	@SidedProxy(clientSide = "nexustools.ic2expanded.handle.KeyboardClient", serverSide = "nexustools.ic2expanded.handle.Keyboard")
 	public static Keyboard keyboard;
 
 	@PreInit
 	public void preload(FMLPreInitializationEvent iEvent) {
 		if(FMLCommonHandler.instance().getSide().isClient()) {
-			MinecraftForgeClient.preloadTexture("/nexustools/IC2Expanded/images/item/item.png");
-			MinecraftForgeClient.preloadTexture("/nexustools/IC2Expanded/images/armor/nano_suit_mk1_1.png");
-			MinecraftForgeClient.preloadTexture("/nexustools/IC2Expanded/images/armor/nano_suit_mk2_1.png");
-			MinecraftForgeClient.preloadTexture("/nexustools/IC2Expanded/images/armor/quantum_suit_mk1_1.png");
-			MinecraftForgeClient.preloadTexture("/nexustools/IC2Expanded/images/armor/quantum_suit_mk2_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/ic2expanded/images/item/item.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/ic2expanded/images/armor/nano_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/ic2expanded/images/armor/nano_suit_mk2_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/ic2expanded/images/armor/quantum_suit_mk1_1.png");
+			MinecraftForgeClient.preloadTexture("/nexustools/ic2expanded/images/armor/quantum_suit_mk2_1.png");
 		}
 		Configuration conf = new Configuration(iEvent.getSuggestedConfigurationFile());
 		conf.load();

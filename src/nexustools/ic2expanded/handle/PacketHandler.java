@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded.handle;
+package nexustools.ic2expanded.handle;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import nexustools.IC2Expanded.IC2Expanded;
+import nexustools.ic2expanded.IC2Expanded;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;

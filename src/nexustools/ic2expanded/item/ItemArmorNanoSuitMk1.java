@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded.item;
+package nexustools.ic2expanded.item;
 
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -37,6 +37,6 @@ public class ItemArmorNanoSuitMk1 extends ItemArmorLap implements IArmorTextureP
 
 	@Override
 	public String getArmorTextureFile(ItemStack itemstack) {
-		return "/nexustools/IC2Expanded/images/armor/nano_suit_mk1_1.png";
+		return "/nexustools/ic2expanded/images/armor/nano_suit_mk1_1.png";
 	}
 }

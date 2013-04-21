@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded.handle;
+package nexustools.ic2expanded.handle;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

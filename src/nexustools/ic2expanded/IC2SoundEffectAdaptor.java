@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded;
+package nexustools.ic2expanded;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

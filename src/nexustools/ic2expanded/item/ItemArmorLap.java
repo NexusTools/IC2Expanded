@@ -1,4 +1,4 @@
-package nexustools.IC2Expanded.item;
+package nexustools.ic2expanded.item;
 
 import ic2.api.ElectricItem;
 import ic2.api.IElectricItem;
@@ -106,7 +106,7 @@ public class ItemArmorLap extends ItemArmor implements ISpecialArmor, IElectricI
 
 	@Override
 	public String getTextureFile() {
-		return "/nexustools/IC2Expanded/images/item/item.png";
+		return "/nexustools/ic2expanded/images/item/item.png";
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
