@@ -1,4 +1,4 @@
-IC2Expanded
+IC2Expanded for Minecraft 1.4.7
 ===========
 IC2Expanded adds new additions that expand upon the [IC2 Mod](http://www.industrial-craft.net/) to add different requested features.
 
